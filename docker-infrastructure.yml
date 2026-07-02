@@ -181,3 +181,45 @@ networks:
     graduation-thesis:
         name: graduation-thesis
         driver: bridge
+
+#  =================================================================
+#  Usage
+#  =================================================================
+#  Start infrastructure:
+#    docker compose -f docker-infrastructure.yml up -d
+#
+#  Stop infrastructure:
+#    docker compose -f docker-infrastructure.yml down
+#
+#  PostgreSQL:
+#    Host in Docker: postgres
+#    Host on local machine: localhost
+#    Port: 5432
+#    Database: keycloak
+#    Username: admin
+#    Password: admin
+#
+#  MongoDB:
+#    Host in Docker: mongodb
+#    Host on local machine: localhost
+#    Port: 27017
+#    Username: admin
+#    Password: admin
+#    Auth database: admin
+#
+#  Redis:
+#    Host in Docker: redis
+#    Host on local machine: localhost
+#    Port: 6379
+#    Username: leave empty
+#    Password: admin
+#
+#  Kafka:
+#    Bootstrap server in Docker: kafka:19092
+#    Bootstrap server on local machine: localhost:9092
+#
+#  Keycloak:
+#    URL: http://localhost:9000
+#    Health: http://localhost:9001/health/ready
+#    Admin username: admin
+#    Admin password: admin

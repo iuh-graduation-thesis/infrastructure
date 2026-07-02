@@ -42,3 +42,40 @@ networks:
     graduation-thesis:
         name: graduation-thesis
         external: true
+
+#  =================================================================
+#  Usage
+#  =================================================================
+#  Start infrastructure first:
+#    docker compose -f docker-infrastructure.yml up -d
+#
+#  Start observability tools:
+#    docker compose -f docker-observability.yml up -d
+#
+#  Stop observability tools:
+#    docker compose -f docker-observability.yml down
+#
+#  pgAdmin:
+#    URL: http://localhost:5050
+#    Login email: admin@iuh.com
+#    Login password: admin
+#    PostgreSQL host: postgres
+#    PostgreSQL port: 5432
+#    PostgreSQL database: keycloak
+#    PostgreSQL username: admin
+#    PostgreSQL password: admin
+#
+#  RedisInsight:
+#    URL: http://localhost:5540
+#
+#  Connect RedisInsight to Redis from Docker network:
+#    Host: redis
+#    Port: 6379
+#    Username: leave empty
+#    Password: admin
+#
+#  Connect to Redis from an app running on local machine:
+#    Host: localhost
+#    Port: 6379
+#    Username: leave empty
+#    Password: admin
