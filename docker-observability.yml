@@ -1,0 +1,44 @@
+services:
+    #  =================================================================
+    #  pgAdmin
+    #  =================================================================
+    pgadmin:
+        image: dpage/pgadmin4:latest
+        container_name: graduation-thesis-pgadmin
+        restart: unless-stopped
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@iuh.com}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 'False'
+        ports:
+            - '5050:80'
+        volumes:
+            - graduation-thesis-pgadmin:/var/lib/pgadmin
+            - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
+        networks:
+            - graduation-thesis
+
+    #  =================================================================
+    #  RedisInsight
+    #  =================================================================
+    redis-insight:
+        image: redis/redisinsight:latest
+        container_name: graduation-thesis-redis-insight
+        restart: unless-stopped
+        ports:
+            - '5540:5540'
+        volumes:
+            - graduation-thesis-redis-insight:/data
+        networks:
+            - graduation-thesis
+
+volumes:
+    graduation-thesis-pgadmin:
+        name: graduation-thesis-pgadmin
+    graduation-thesis-redis-insight:
+        name: graduation-thesis-redis-insight
+
+networks:
+    graduation-thesis:
+        name: graduation-thesis
+        external: true
