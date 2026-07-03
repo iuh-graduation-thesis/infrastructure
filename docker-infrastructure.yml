@@ -121,15 +121,12 @@ services:
             resources:
                 limits:
                     memory: 750M
-        command: start
-        # Bước setup đầu: tạm thời chưa import realm, custom provider, custom theme.
-        # Khi cần bật lại, tạo đúng thư mục/file rồi mở comment các dòng bên dưới.
-        # volumes:
-        #     - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm.json:ro
-        #     - ./keycloak/providers:/opt/keycloak/providers
-        #     - ./keycloak/themes:/opt/keycloak/themes
+        command: start --import-realm
+        volumes:
+            - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm.json:ro
+            - ./keycloak/provider:/opt/keycloak/providers
         healthcheck:
-            test: ['CMD-SHELL', "bash -ec \"exec 3<>/dev/tcp/127.0.0.1/9001; printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; grep -q '200 OK' <&3\""]
+            test: ['CMD-SHELL', "bash -ec \"exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; grep -q '200 OK' <&3\""]
             interval: 30s
             timeout: 10s
             retries: 5
@@ -141,7 +138,7 @@ services:
                 condition: service_healthy
         ports:
             - '9000:8080'
-            - '9001:9001'
+            - '9001:9000'
         environment:
             # Database
             KC_DB: postgres
@@ -157,7 +154,6 @@ services:
             # Health & Metrics
             KC_HEALTH_ENABLED: 'true'
             KC_METRICS_ENABLED: 'true'
-            KC_HTTP_HEALTH_PORT: '9001'
             # Network
             KC_HTTP_ENABLED: 'true'
             KC_HOSTNAME: ${KEYCLOAK_HOSTNAME:-localhost}

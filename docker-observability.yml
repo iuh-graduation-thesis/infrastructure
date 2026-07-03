@@ -32,6 +32,22 @@ services:
         networks:
             - graduation-thesis
 
+    #  =================================================================
+    #  Kafka UI
+    #  =================================================================
+    kafka-ui:
+        image: provectuslabs/kafka-ui:latest
+        container_name: graduation-thesis-kafka-ui
+        restart: unless-stopped
+        ports:
+            - '9022:9022'
+        environment:
+            SERVER_PORT: 9022
+            KAFKA_CLUSTERS_0_NAME: graduation-thesis
+            KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:19092
+        networks:
+            - graduation-thesis
+
 volumes:
     graduation-thesis-pgadmin:
         name: graduation-thesis-pgadmin
@@ -67,6 +83,10 @@ networks:
 #
 #  RedisInsight:
 #    URL: http://localhost:5540
+#
+#  Kafka UI:
+#    URL: http://localhost:9022
+#    Kafka bootstrap server from Docker network: kafka:19092
 #
 #  Connect RedisInsight to Redis from Docker network:
 #    Host: redis
