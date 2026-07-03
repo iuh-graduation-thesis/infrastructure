@@ -43,7 +43,7 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
                     sendToKafka(userId, finalEmail, "CREATE", "ADMIN");
                 }
 
-                case DELETE -> {}
+                case DELETE -> sendToKafka(userId, null, "DELETE", "ADMIN");
                 case UPDATE -> {}
                 default -> {}
             }
@@ -73,6 +73,10 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
     }
 
     private String extractUserId(String path) {
+        if (path == null || path.isBlank()) {
+            return null;
+        }
+
         return path.startsWith("users/") ? path.substring(6) : path;
     }
 
