@@ -1,26 +1,17 @@
 package com.fit.iuh.keycloak_event_publisher;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.admin.AdminEvent;
 
-import java.util.logging.Logger;
-
-public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer, String topic) implements EventListenerProvider {
-
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private static final Logger log = Logger.getLogger(KafkaEventPublisherProvider.class.getName());
+public record KafkaEventPublisherProvider(KafkaEventPublisher publisher, UserEventPayloadBuilder payloadBuilder)
+        implements EventListenerProvider {
 
     @Override
     public void onEvent(Event event) {
-        String email = event.getDetails() == null ? null : event.getDetails().get("email");
-
-        switch (event.getType()) {
-            case REGISTER -> sendToKafka(event.getUserId(), email, "CREATE", "USER");
+        switch (event.getType().name()) {
+            case "REGISTER" -> publisher.publish(event.getUserId(), payloadBuilder.fromUserEvent(event, "CREATE"));
+            case "UPDATE_PROFILE", "UPDATE_EMAIL" -> publisher.publish(event.getUserId(), payloadBuilder.fromUserEvent(event, "UPDATE"));
             default -> {}
         }
     }
@@ -31,17 +22,8 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
             String userId = extractUserId(adminEvent.getResourcePath());
             switch (adminEvent.getOperationType()) {
 
-                case CREATE -> {
-                    String defaultMail = "admin-" + System.currentTimeMillis();
-                    String extractedEmail = null;
-
-                    if (includeRepresentation && adminEvent.getRepresentation() != null)
-                        extractedEmail = extractEmailFromRep(adminEvent.getRepresentation());
-
-                    String finalEmail = (extractedEmail != null) ? extractedEmail : defaultMail;
-                    sendToKafka(userId, finalEmail, "CREATE", "ADMIN");
-                }
-
+                case CREATE -> publisher.publish(userId, payloadBuilder.fromAdminEvent(userId, "CREATE", adminEvent.getRepresentation()));
+                case UPDATE -> publisher.publish(userId, payloadBuilder.fromAdminEvent(userId, "UPDATE", adminEvent.getRepresentation()));
                 default -> {}
             }
         }
@@ -50,46 +32,14 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
 
     @Override
     public void close() {
-        producer.flush();
+        publisher.flush();
     }
 
-    private void sendToKafka(String userId, String email, String action, String source) {
-        try {
-            java.util.Map<String, String> data = new java.util.HashMap<>();
-            data.put("userId", userId);
-            data.put("email", email != null ? email : "null");
-            data.put("action", action);
-            data.put("source", source);
-
-            String payload = mapper.writeValueAsString(data);
-
-            producer.send(new ProducerRecord<>(topic, userId, payload));
-        } catch (Exception e) {
-            log.severe("Kafka Error (Jackson): " + e.getMessage());
-        }
-    }
-
-    private String extractUserId(String path) {
-        if (path == null || path.isBlank()) {
+    private String extractUserId(String resourcePath) {
+        if (resourcePath == null || resourcePath.isBlank()) {
             return null;
         }
 
-        return path.startsWith("users/") ? path.substring(6) : path;
+        return resourcePath.startsWith("users/") ? resourcePath.substring(6) : resourcePath;
     }
-
-    private String extractEmailFromRep(String representation) {
-        if (representation == null || representation.isEmpty()) {
-            return null;
-        }
-        try {
-            JsonNode node = mapper.readTree(representation);
-
-            if (node.has("email")) return node.get("email").asText();
-        } catch (Exception e) {
-            log.warning("Could not parse admin event representation: " + e.getMessage());
-        }
-
-        return null;
-    }
-    
 }

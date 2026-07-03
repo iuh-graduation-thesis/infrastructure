@@ -14,6 +14,8 @@ import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.provider.ProviderConfigProperty;
 import org.keycloak.provider.ProviderConfigurationBuilder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class KafkaEventPublisherProviderFactory implements EventListenerProviderFactory {
 
     private static final String PROVIDER_ID = "kafka-event-publisher";
@@ -29,6 +31,7 @@ public class KafkaEventPublisherProviderFactory implements EventListenerProvider
 
     private KafkaProducer<String, String> producer;
     private String topic;
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
     public List<ProviderConfigProperty> getConfigMetadata() {
@@ -67,7 +70,10 @@ public class KafkaEventPublisherProviderFactory implements EventListenerProvider
 
     @Override
     public EventListenerProvider create(KeycloakSession session) {
-        return new KafkaEventPublisherProvider(producer, topic);
+        KafkaEventPublisher publisher = new KafkaEventPublisher(producer, topic, mapper);
+        UserEventPayloadBuilder payloadBuilder = new UserEventPayloadBuilder(session, mapper);
+
+        return new KafkaEventPublisherProvider(publisher, payloadBuilder);
     }
 
     @Override
