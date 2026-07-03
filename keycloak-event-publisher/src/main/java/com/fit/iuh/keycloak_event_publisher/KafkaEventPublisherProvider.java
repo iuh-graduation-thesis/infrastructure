@@ -21,7 +21,6 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
 
         switch (event.getType()) {
             case REGISTER -> sendToKafka(event.getUserId(), email, "CREATE", "USER");
-            case DELETE_ACCOUNT -> sendToKafka(event.getUserId(), null, "DELETE", "USER");
             default -> {}
         }
     }
@@ -43,8 +42,6 @@ public record KafkaEventPublisherProvider(KafkaProducer<String, String> producer
                     sendToKafka(userId, finalEmail, "CREATE", "ADMIN");
                 }
 
-                case DELETE -> sendToKafka(userId, null, "DELETE", "ADMIN");
-                case UPDATE -> {}
                 default -> {}
             }
         }
