@@ -66,6 +66,7 @@ public class UserEventPayloadBuilder {
             payload.put("firstName", user.getFirstName());
             payload.put("lastName", user.getLastName());
             payload.put("enabled", user.isEnabled());
+            payload.put("emailVerified", user.isEmailVerified());
         } catch (Exception e) {
             log.warning("Could not load user profile from Keycloak session: " + e.getMessage());
         }
@@ -87,6 +88,11 @@ public class UserEventPayloadBuilder {
             JsonNode enabled = node.findValue("enabled");
             if (enabled != null && !enabled.isNull()) {
                 payload.put("enabled", enabled.asBoolean());
+            }
+
+            JsonNode emailVerified = node.findValue("emailVerified");
+            if (emailVerified != null && !emailVerified.isNull()) {
+                payload.put("emailVerified", emailVerified.asBoolean());
             }
         } catch (Exception e) {
             log.warning("Could not parse admin event representation: " + e.getMessage());

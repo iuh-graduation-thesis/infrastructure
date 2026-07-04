@@ -27,7 +27,7 @@ public class KafkaEventPublisherProviderFactory implements EventListenerProvider
     private static final String TOPIC_ENV = "KEYCLOAK_KAFKA_TOPIC";
 
     private static final String BOOTSTRAP_SERVERS_DEFAULT = "kafka:19092";
-    private static final String TOPIC_DEFAULT = "user-registration";
+    private static final String TOPIC_DEFAULT = "keycloak-user-events";
 
     private KafkaProducer<String, String> producer;
     private String topic;

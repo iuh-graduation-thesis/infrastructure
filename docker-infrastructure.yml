@@ -150,7 +150,7 @@ services:
             KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
             # SPI Config
             KAFKA_BOOTSTRAP_SERVER: ${KAFKA_BOOTSTRAP_SERVER:-kafka:19092}
-            KEYCLOAK_KAFKA_TOPIC: ${KEYCLOAK_KAFKA_TOPIC:-user-registration}
+            KEYCLOAK_KAFKA_TOPIC: ${KEYCLOAK_KAFKA_TOPIC:-keycloak-user-events}
             # Health & Metrics
             KC_HEALTH_ENABLED: 'true'
             KC_METRICS_ENABLED: 'true'

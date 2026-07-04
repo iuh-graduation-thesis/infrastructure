@@ -12,6 +12,7 @@ public record KafkaEventPublisherProvider(KafkaEventPublisher publisher, UserEve
         switch (event.getType().name()) {
             case "REGISTER" -> publisher.publish(event.getUserId(), payloadBuilder.fromUserEvent(event, "CREATE"));
             case "UPDATE_PROFILE", "UPDATE_EMAIL" -> publisher.publish(event.getUserId(), payloadBuilder.fromUserEvent(event, "UPDATE"));
+            case "DELETE_ACCOUNT" -> publisher.publish(event.getUserId(), payloadBuilder.fromUserEvent(event, "DELETE"));
             default -> {}
         }
     }
@@ -24,6 +25,7 @@ public record KafkaEventPublisherProvider(KafkaEventPublisher publisher, UserEve
 
                 case CREATE -> publisher.publish(userId, payloadBuilder.fromAdminEvent(userId, "CREATE", adminEvent.getRepresentation()));
                 case UPDATE -> publisher.publish(userId, payloadBuilder.fromAdminEvent(userId, "UPDATE", adminEvent.getRepresentation()));
+                case DELETE -> publisher.publish(userId, payloadBuilder.fromAdminEvent(userId, "DELETE", adminEvent.getRepresentation()));
                 default -> {}
             }
         }
