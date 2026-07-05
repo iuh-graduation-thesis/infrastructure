@@ -222,6 +222,26 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/email/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "email",
+                "verify"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
