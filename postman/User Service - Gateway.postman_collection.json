@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "0b4f2a54-6326-4c14-92de-user-gateway",
     "name": "User Service - Gateway",
-    "description": "Call user-service endpoints through gateway. Base route: /user-service/**.",
+    "description": "Call user-service endpoints through gateway. Public API base route: /api/v1/**.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -31,7 +31,7 @@
     }
   ],
   "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080/user-service" },
+    { "key": "baseUrl", "value": "http://localhost:8080/api/v1" },
     { "key": "keycloakUrl", "value": "http://localhost:9000" },
     { "key": "realm", "value": "graduation-thesis" },
     { "key": "clientId", "value": "graduation-thesis-id" },
@@ -123,14 +123,6 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": "{{baseUrl}}/users/me/password"
-          }
-        },
-        {
-          "name": "Get User Permissions - Internal",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": "{{baseUrl}}/internal/users/{{userId}}/permissions"
           }
         }
       ]
