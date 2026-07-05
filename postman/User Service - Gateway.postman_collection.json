@@ -102,7 +102,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\",\n  \"avatarUrl\": \"https://example.com/avatar.png\"\n}",
+              "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -151,6 +151,58 @@
                 "users",
                 "me",
                 "password"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "profile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update My Profile",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/me/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "profile"
               ]
             }
           },
