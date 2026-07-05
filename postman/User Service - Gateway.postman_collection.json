@@ -187,7 +187,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\"\n}",
+              "raw": "{\n  \"username\": \"{{username}}\",\n  \"email\": \"{{userEmail}}\",\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
