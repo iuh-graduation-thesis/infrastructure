@@ -38,6 +38,8 @@
     { "key": "clientSecret", "value": "" },
     { "key": "username", "value": "admin" },
     { "key": "password", "value": "admin" },
+    { "key": "oldPassword", "value": "Admin@123" },
+    { "key": "newPassword", "value": "Admin@1234" },
     { "key": "scope", "value": "openid profile email" },
     { "key": "accessToken", "value": "" },
     { "key": "userId", "value": "" },
@@ -106,6 +108,21 @@
               "options": { "raw": { "language": "json" } }
             },
             "url": "{{baseUrl}}/users/me/onboarding"
+          }
+        },
+        {
+          "name": "Update Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"{{oldPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": "{{baseUrl}}/users/me/password"
           }
         },
         {
