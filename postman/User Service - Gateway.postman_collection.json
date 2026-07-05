@@ -40,7 +40,7 @@
     { "key": "password", "value": "admin" },
     { "key": "scope", "value": "openid profile email" },
     { "key": "accessToken", "value": "" },
-    { "key": "keycloakId", "value": "" },
+    { "key": "userId", "value": "" },
     { "key": "userEmail", "value": "admin@example.com" },
     { "key": "roleId", "value": "" },
     { "key": "permissionId", "value": "" },
@@ -113,7 +113,7 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/internal/users/{{keycloakId}}/permissions"
+            "url": "{{baseUrl}}/internal/users/{{userId}}/permissions"
           }
         }
       ]
