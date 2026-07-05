@@ -1,55 +1,11 @@
 {
   "info": {
-    "_postman_id": "0b4f2a54-6326-4c14-92de-user-gateway",
+    "_postman_id": "0e247e29-dfeb-455d-910c-b0cf732f6968",
     "name": "User Service - Gateway",
     "description": "Call user-service endpoints through gateway. Public API base route: /api/v1/**.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "40740215"
   },
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "{{accessToken}}",
-        "type": "string"
-      }
-    ]
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "if (!pm.collectionVariables.get('adminAuthorities')) {",
-          "  pm.collectionVariables.set('adminAuthorities', 'USER_VIEW,USER_CREATE,ROLE_VIEW,ROLE_CREATE,ROLE_UPDATE,ROLE_DELETE,PERMISSION_VIEW,PERMISSION_CREATE,PERMISSION_UPDATE,PERMISSION_DELETE');",
-          "}",
-          "if (!pm.collectionVariables.get('roleName')) pm.collectionVariables.set('roleName', 'TEST_ROLE');",
-          "if (!pm.collectionVariables.get('permissionName')) pm.collectionVariables.set('permissionName', 'TEST_PERMISSION');"
-        ]
-      }
-    }
-  ],
-  "variable": [
-    { "key": "baseUrl", "value": "http://localhost:8080/api/v1" },
-    { "key": "keycloakUrl", "value": "http://localhost:9000" },
-    { "key": "realm", "value": "graduation-thesis" },
-    { "key": "clientId", "value": "graduation-thesis-id" },
-    { "key": "clientSecret", "value": "" },
-    { "key": "username", "value": "admin" },
-    { "key": "password", "value": "admin" },
-    { "key": "oldPassword", "value": "Admin@123" },
-    { "key": "newPassword", "value": "Admin@1234" },
-    { "key": "scope", "value": "openid profile email" },
-    { "key": "accessToken", "value": "" },
-    { "key": "userId", "value": "" },
-    { "key": "userEmail", "value": "admin@example.com" },
-    { "key": "roleId", "value": "" },
-    { "key": "permissionId", "value": "" },
-    { "key": "roleName", "value": "TEST_ROLE" },
-    { "key": "permissionName", "value": "TEST_PERMISSION" },
-    { "key": "adminAuthorities", "value": "USER_VIEW,USER_CREATE,ROLE_VIEW,ROLE_CREATE,ROLE_UPDATE,ROLE_DELETE,PERMISSION_VIEW,PERMISSION_CREATE,PERMISSION_UPDATE,PERMISSION_DELETE" }
-  ],
   "item": [
     {
       "name": "Auth",
@@ -60,35 +16,74 @@
             {
               "listen": "test",
               "script": {
-                "type": "text/javascript",
                 "exec": [
                   "const json = pm.response.json();",
                   "if (json.access_token) pm.collectionVariables.set('accessToken', json.access_token);",
                   "if (json.id_token) pm.collectionVariables.set('idToken', json.id_token);",
                   "pm.test('access token saved', () => pm.expect(pm.collectionVariables.get('accessToken')).to.not.be.empty);"
-                ]
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
           "request": {
-            "auth": { "type": "noauth" },
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
             ],
             "body": {
               "mode": "urlencoded",
               "urlencoded": [
-                { "key": "grant_type", "value": "password", "type": "text" },
-                { "key": "client_id", "value": "{{clientId}}", "type": "text" },
-                { "key": "client_secret", "value": "{{clientSecret}}", "type": "text" },
-                { "key": "username", "value": "{{username}}", "type": "text" },
-                { "key": "password", "value": "{{password}}", "type": "text" },
-                { "key": "scope", "value": "{{scope}}", "type": "text" }
+                {
+                  "key": "grant_type",
+                  "value": "password",
+                  "type": "text"
+                },
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "text"
+                },
+                {
+                  "key": "scope",
+                  "value": "{{scope}}",
+                  "type": "text"
+                }
               ]
             },
-            "url": "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token"
-          }
+            "url": {
+              "raw": "{{keycloakUrl}}/realms/{{realm}}/protocol/openid-connect/token",
+              "host": [
+                "{{keycloakUrl}}"
+              ],
+              "path": [
+                "realms",
+                "{{realm}}",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -100,30 +95,66 @@
           "request": {
             "method": "PUT",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Tester\",\n  \"phone\": \"0901234567\",\n  \"dob\": \"2000-01-01\",\n  \"gender\": \"MALE\",\n  \"avatarUrl\": \"https://example.com/avatar.png\"\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/users/me/onboarding"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/users/me/onboarding",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "onboarding"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Update Password",
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"oldPassword\": \"{{oldPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/users/me/password"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/users/me/password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "password"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -134,14 +165,33 @@
           "name": "Create Role",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"{{roleName}}\",\n  \"description\": \"Temporary role from Postman\",\n  \"permissionIdList\": []\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/admin/roles"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List Roles - Page",
@@ -163,8 +213,28 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/admin/roles?page=0&size=10"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List Roles - All",
@@ -185,37 +255,90 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/admin/roles/all"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles",
+                "all"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Get Role By ID",
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/admin/roles/{{roleId}}"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles/{{roleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles",
+                "{{roleId}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Update Role By ID",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"{{roleName}}\",\n  \"description\": \"Updated from Postman\",\n  \"permissionIdList\": []\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/admin/roles/{{roleId}}"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles/{{roleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles",
+                "{{roleId}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Delete Role By ID",
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/admin/roles/{{roleId}}"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/roles/{{roleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "roles",
+                "{{roleId}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -226,14 +349,33 @@
           "name": "Create Permission",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"{{permissionName}}\",\n  \"description\": \"Temporary permission from Postman\"\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/admin/permissions"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/permissions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "permissions"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List Permissions - Page",
@@ -255,8 +397,28 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/admin/permissions?page=0&size=10"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/permissions?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "permissions"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "List Permissions - All",
@@ -277,31 +439,188 @@
           "request": {
             "method": "GET",
             "header": [],
-            "url": "{{baseUrl}}/admin/permissions/all"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/permissions/all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "permissions",
+                "all"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Update Permission By ID",
           "request": {
             "method": "POST",
-            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"name\": \"{{permissionName}}\",\n  \"description\": \"Updated from Postman\"\n}",
-              "options": { "raw": { "language": "json" } }
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
-            "url": "{{baseUrl}}/admin/permissions/{{permissionId}}"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/permissions/{{permissionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "permissions",
+                "{{permissionId}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Delete Permission By ID",
           "request": {
             "method": "DELETE",
             "header": [],
-            "url": "{{baseUrl}}/admin/permissions/{{permissionId}}"
-          }
+            "url": {
+              "raw": "{{baseUrl}}/admin/permissions/{{permissionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "permissions",
+                "{{permissionId}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "requests": {},
+        "exec": [
+          "if (!pm.collectionVariables.get('adminAuthorities')) {",
+          "  pm.collectionVariables.set('adminAuthorities', 'USER_VIEW,USER_CREATE,ROLE_VIEW,ROLE_CREATE,ROLE_UPDATE,ROLE_DELETE,PERMISSION_VIEW,PERMISSION_CREATE,PERMISSION_UPDATE,PERMISSION_DELETE');",
+          "}",
+          "if (!pm.collectionVariables.get('roleName')) pm.collectionVariables.set('roleName', 'TEST_ROLE');",
+          "if (!pm.collectionVariables.get('permissionName')) pm.collectionVariables.set('permissionName', 'TEST_PERMISSION');"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1"
+    },
+    {
+      "key": "keycloakUrl",
+      "value": "http://localhost:9000"
+    },
+    {
+      "key": "realm",
+      "value": "graduation-thesis"
+    },
+    {
+      "key": "clientId",
+      "value": "graduation-thesis-id"
+    },
+    {
+      "key": "clientSecret",
+      "value": ""
+    },
+    {
+      "key": "username",
+      "value": "admin"
+    },
+    {
+      "key": "password",
+      "value": "admin"
+    },
+    {
+      "key": "oldPassword",
+      "value": "Admin@123"
+    },
+    {
+      "key": "newPassword",
+      "value": "Admin@1234"
+    },
+    {
+      "key": "scope",
+      "value": "openid profile email"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "userId",
+      "value": ""
+    },
+    {
+      "key": "userEmail",
+      "value": "admin@example.com"
+    },
+    {
+      "key": "roleId",
+      "value": ""
+    },
+    {
+      "key": "permissionId",
+      "value": ""
+    },
+    {
+      "key": "roleName",
+      "value": "TEST_ROLE"
+    },
+    {
+      "key": "permissionName",
+      "value": "TEST_PERMISSION"
+    },
+    {
+      "key": "adminAuthorities",
+      "value": "USER_VIEW,USER_CREATE,ROLE_VIEW,ROLE_CREATE,ROLE_UPDATE,ROLE_DELETE,PERMISSION_VIEW,PERMISSION_CREATE,PERMISSION_UPDATE,PERMISSION_DELETE"
+    },
+    {
+      "key": "idToken",
+      "value": ""
     }
   ]
 }
