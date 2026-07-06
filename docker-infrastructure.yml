@@ -125,7 +125,7 @@ services:
         volumes:
             - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm.json:ro
             - ./keycloak/provider:/opt/keycloak/providers
-            - ./keycloak-themes:/opt/keycloak/themes:ro
+            - ./keycloak/keycloak-themes:/opt/keycloak/themes:ro
         healthcheck:
             test: ['CMD-SHELL', "bash -ec \"exec 3<>/dev/tcp/127.0.0.1/9000; printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; grep -q '200 OK' <&3\""]
             interval: 30s

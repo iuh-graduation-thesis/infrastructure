@@ -103,9 +103,9 @@
                         </goals>
                         <configuration>
                             <target>
-                                <mkdir dir="../keycloak/provider"/>
+                                <mkdir dir="../provider"/>
                                 <copy file="target/keycloak-kafka-listener.jar"
-                                      tofile="../keycloak/provider/keycloak-kafka-listener.jar"/>
+                                      tofile="../provider/keycloak-kafka-listener.jar"/>
                             </target>
                         </configuration>
                     </execution>
