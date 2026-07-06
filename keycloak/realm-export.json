@@ -1,6 +1,7 @@
 {
   "id": "cef15d40-9c03-41ca-a7f2-fc1fa62b7c3f",
   "realm": "graduation-thesis",
+  "loginTheme": "graduation-thesis",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -1831,7 +1832,12 @@
       }
     ]
   },
-  "internationalizationEnabled": false,
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "vi",
+    "en"
+  ],
+  "defaultLocale": "vi",
   "authenticationFlows": [
     {
       "id": "69896e03-3949-48f2-beb9-59f3d4168db6",

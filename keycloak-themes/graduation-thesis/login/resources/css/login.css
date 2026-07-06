@@ -1,0 +1,127 @@
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(255, 196, 37, 0.2), transparent 30rem),
+        linear-gradient(135deg, #0b4ea2 0%, #123f8c 45%, #082a63 100%);
+    color: #102033;
+}
+
+.login-pf body {
+    background:
+        radial-gradient(circle at top left, rgba(255, 196, 37, 0.2), transparent 30rem),
+        linear-gradient(135deg, #0b4ea2 0%, #123f8c 45%, #082a63 100%);
+}
+
+.login-pf-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 7rem 1rem 2rem;
+}
+
+#kc-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 2rem;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 10px 32px rgba(4, 26, 65, 0.16);
+    backdrop-filter: blur(10px);
+}
+
+.login-pf-page .card-pf {
+    width: min(100%, 420px);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: 0 24px 64px rgba(3, 20, 51, 0.28);
+}
+
+.login-pf-page .login-pf-header {
+    margin-bottom: 1rem;
+}
+
+#kc-header-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.875rem;
+    width: min(100%, 1180px);
+    margin: 0 auto;
+    color: #0b3f8a;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: none;
+    text-shadow: none;
+    overflow-wrap: anywhere;
+}
+
+#kc-header-wrapper::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    background: #ffffff url("../img/iuh.jpg") center / 38px 38px no-repeat;
+    box-shadow: 0 8px 18px rgba(4, 26, 65, 0.14);
+}
+
+#kc-page-title {
+    color: #123f8c;
+    font-weight: 700;
+}
+
+#kc-logo-wrapper {
+    display: none;
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 1rem;
+    border-radius: 8px;
+    background: #ffffff url("../img/iuh.jpg") center / 76px 76px no-repeat;
+    box-shadow: 0 12px 28px rgba(4, 26, 65, 0.22);
+}
+
+.pf-c-button.pf-m-primary,
+input[type="submit"] {
+    border: 0;
+    border-radius: 6px;
+    background: #0b4ea2;
+    font-weight: 700;
+}
+
+.pf-c-button.pf-m-primary:hover,
+input[type="submit"]:hover {
+    background: #083c80;
+}
+
+.pf-c-form-control,
+input[type="text"],
+input[type="password"] {
+    border-radius: 6px;
+}
+
+a {
+    color: #0b4ea2;
+}
+
+@media (max-width: 640px) {
+    .login-pf-page {
+        padding-top: 6rem;
+    }
+
+    #kc-header {
+        padding: 0.75rem 1rem;
+    }
+
+    #kc-header-wrapper {
+        font-size: 1rem;
+    }
+}
