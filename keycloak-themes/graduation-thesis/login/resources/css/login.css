@@ -19,7 +19,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    padding: 7rem 1rem 2rem;
+    padding: 8rem 1rem 2rem;
 }
 
 #kc-header {
@@ -28,11 +28,14 @@ body {
     left: 0;
     z-index: 10;
     width: 100%;
+    height: 86px;
     margin: 0;
     padding: 0.75rem 2rem;
     background: rgba(255, 255, 255, 0.96);
     box-shadow: 0 10px 32px rgba(4, 26, 65, 0.16);
     backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
 }
 
 .login-pf-page .card-pf {
@@ -46,6 +49,19 @@ body {
     margin-bottom: 1rem;
 }
 
+.login-pf-page .subtitle,
+.login-pf-page .required {
+    display: none;
+}
+
+.login-pf-page .subtitle {
+    display: none;
+}
+
+.login-pf-page .required {
+    display: none;
+}
+
 #kc-header-wrapper {
     display: flex;
     flex-direction: row;
@@ -55,7 +71,7 @@ body {
     width: min(100%, 1180px);
     margin: 0 auto;
     color: #0b3f8a;
-    font-size: 1.1rem;
+    font-size: 1.45rem;
     font-weight: 700;
     letter-spacing: 0;
     line-height: 1.2;
@@ -67,16 +83,26 @@ body {
 #kc-header-wrapper::before {
     content: "";
     flex: 0 0 auto;
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
-    background: #ffffff url("../img/iuh.jpg") center / 38px 38px no-repeat;
+    width: 58px;
+    height: 58px;
+    border-radius: 8px;
+    background: #ffffff url("../img/iuh.jpg") center / 50px 50px no-repeat;
     box-shadow: 0 8px 18px rgba(4, 26, 65, 0.14);
 }
 
 #kc-page-title {
     color: #123f8c;
     font-weight: 700;
+}
+
+#kc-register-form #kc-form-options,
+form[action*="registration"] #kc-form-options {
+    margin: 1.1rem 0 0.75rem;
+}
+
+#kc-register-form #kc-form-buttons,
+form[action*="registration"] #kc-form-buttons {
+    margin-top: 0.5rem;
 }
 
 #kc-logo-wrapper {
@@ -112,16 +138,186 @@ a {
     color: #0b4ea2;
 }
 
+#kc-form-options,
+#kc-form-buttons {
+    margin-top: 1rem;
+}
+
+#kc-form-options a,
+#kc-registration a[href*="login-actions/authenticate"],
+form a[href*="login-actions/authenticate"] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    width: fit-content;
+    margin-bottom: 0.25rem;
+    color: #0b4ea2;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 160ms ease, transform 160ms ease;
+}
+
+#kc-form-options a::before,
+#kc-registration a[href*="login-actions/authenticate"]::before,
+form a[href*="login-actions/authenticate"]::before {
+    content: "\00ab";
+    font-size: 1rem;
+    line-height: 1;
+}
+
+#kc-form-options a:hover,
+#kc-registration a[href*="login-actions/authenticate"]:hover,
+form a[href*="login-actions/authenticate"]:hover {
+    color: #083c80;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+    transform: translateX(-2px);
+}
+
+#kc-locale {
+    position: fixed;
+    top: 0;
+    right: max(2rem, calc((100vw - 1180px) / 2 + 2rem));
+    z-index: 11;
+    width: auto;
+    height: 86px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+#kc-locale-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: auto;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#kc-locale-dropdown a {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.25rem;
+    font-size: 1.25rem;
+    color: #0b3f8a;
+    font-weight: 700;
+    line-height: 1.25;
+    text-decoration: none;
+}
+
+#kc-current-locale-link {
+    display: none;
+}
+
+#kc-current-locale-link::after {
+    content: none;
+}
+
+#kc-locale-dropdown ul {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#kc-locale-dropdown li {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+}
+
+#kc-locale-dropdown li:not(:last-child)::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 1.6rem;
+    margin-left: 0.25rem;
+    background: rgba(11, 63, 138, 0.24);
+}
+
+#kc-locale-dropdown li a:hover {
+    background: rgba(11, 78, 162, 0.08);
+    text-decoration: none;
+}
+
+#kc-locale-dropdown li a[aria-current="true"],
+#kc-locale-dropdown li a:hover {
+    color: #082f70;
+}
+
+#kc-locale-dropdown a[href*="kc_locale=en"],
+#kc-locale-dropdown a[href*="kc_locale=vi"] {
+    position: relative;
+    width: 48px;
+    height: 44px;
+    justify-content: center;
+    border-radius: 8px;
+    color: transparent !important;
+    font-size: 0 !important;
+    transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+#kc-locale-dropdown a[href*="kc_locale=en"]::after,
+#kc-locale-dropdown a[href*="kc_locale=vi"]::after {
+    color: #0b3f8a !important;
+    font-size: 1.25rem !important;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+#kc-locale-dropdown a[href*="kc_locale=en"]::after {
+    content: "EN";
+}
+
+#kc-locale-dropdown a[href*="kc_locale=vi"]::after {
+    content: "VI";
+}
+
+#kc-locale-dropdown a[href*="kc_locale=en"]:hover,
+#kc-locale-dropdown a[href*="kc_locale=vi"]:hover {
+    transform: translateY(-1px);
+}
+
+html[lang="en"] #kc-locale-dropdown a[href*="kc_locale=en"],
+html[lang="vi"] #kc-locale-dropdown a[href*="kc_locale=vi"] {
+    background: transparent;
+}
+
+html[lang="en"] #kc-locale-dropdown a[href*="kc_locale=en"]::before,
+html[lang="vi"] #kc-locale-dropdown a[href*="kc_locale=vi"]::before {
+    content: "";
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    left: 10px;
+    height: 3px;
+    border-radius: 999px;
+    background: #0b4ea2;
+}
+
 @media (max-width: 640px) {
     .login-pf-page {
-        padding-top: 6rem;
+        padding-top: 7rem;
     }
 
     #kc-header {
         padding: 0.75rem 1rem;
     }
 
+    #kc-locale {
+        right: 1rem;
+    }
+
     #kc-header-wrapper {
-        font-size: 1rem;
+        font-size: 1.3rem;
     }
 }
